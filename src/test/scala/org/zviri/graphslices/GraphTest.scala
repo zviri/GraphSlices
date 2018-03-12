@@ -32,6 +32,14 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.edgeIndex(4).value.get.data shouldEqual 5.0
   }
 
+  "mapTriplets" should "transform edge data providing access to from vertices" in {
+    val graphTransformed = testGraphSimple.mapTriplets(triplet => triplet.edge.data / triplet.srcVertex.data.toDouble)
+    graphTransformed.edgeIndex(1).value.get.data shouldEqual 1.0
+    graphTransformed.edgeIndex(2).value.get.data shouldEqual 2.0
+    graphTransformed.edgeIndex(3).value.get.data shouldEqual (3 / 2.0)
+    graphTransformed.edgeIndex(4).value.get.data shouldEqual (4 / 3.0)
+  }
+
   "aggregateNeighbours" should "send message via mapFunc over each edge and aggregate incoming edges via reduceFunc" in {
     val graphTransformed = testGraphSimple.aggregateNeighbors[Double]((v, e) => (v.data * e.data).toDouble, (m1, m2) => m1 + m2)
 
@@ -182,11 +190,19 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.edgeIndex(4).value.get.dstId.head shouldEqual 3
   }
 
-  "degree" should "return a in-degree graph" in {
-    val degreeGraph = testGraphSimple.degree()
+  "inDegree" should "return a in-degree graph" in {
+    val degreeGraph = testGraphSimple.inDegree()
     degreeGraph.vertexIndex(1).value.get.data shouldEqual 0
     degreeGraph.vertexIndex(2).value.get.data shouldEqual 1
     degreeGraph.vertexIndex(3).value.get.data shouldEqual 1
     degreeGraph.vertexIndex(4).value.get.data shouldEqual 2
+  }
+
+  "outDegree" should "return a out-degree graph" in {
+    val degreeGraph = testGraphSimple.outDegree()
+    degreeGraph.vertexIndex(1).value.get.data shouldEqual 2
+    degreeGraph.vertexIndex(2).value.get.data shouldEqual 1
+    degreeGraph.vertexIndex(3).value.get.data shouldEqual 1
+    degreeGraph.vertexIndex(4).value.get.data shouldEqual 0
   }
 }

@@ -15,6 +15,16 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
     new Graph[VD, ED2](vertices, edges.map(edge => Edge(edge.id, edge.srcId, edge.dstId, map(edge))), numDimensions)
   }
 
+  def mapTriplets[ED2](mapFunc: EdgeTriplet[VD, ED] => ED2)
+  : Graph[VD, ED2] = {
+    val vertexMap = vertices.map(v => (v.id, v)).toMap
+    val newEdges = edges.map(e => {
+      val edgeData = mapFunc(EdgeTriplet(vertexMap(e.srcId), vertexMap(e.dstId), e))
+      Edge(e.id, e.srcId, e.dstId, edgeData)
+    })
+    new Graph(vertices, newEdges, numDimensions)
+  }
+
   def numDimensions: Int = _numDimensions
 
   def aggregateNeighbors[A](mapFunc: (Vertex[VD], Edge[ED]) => A, reduceFunc: (A, A) => A): Graph[A, ED] = {
@@ -100,11 +110,15 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
     new Graph(vertices, edges.map(e => Edge(e.id, e.dstId, e.srcId, e.data)), numDimensions)
   }
 
-  def degree(): Graph[Int, ED] = {
+  def inDegree(): Graph[Int, ED] = {
     val degrees = aggregateNeighbors[Int]((_, _) => 1, (a, b) => a + b).vertices.map(v => (v.id, v.data))
     this.outerJoinVertices(degrees) {
       (v, d) => d.getOrElse(0)
     }
+  }
+
+  def outDegree(): Graph[Int, ED] = {
+    reverseEdges().inDegree()
   }
 }
 
@@ -124,4 +138,9 @@ object Edge {
   def apply[ED](id: Id, srcId: Id, dstId: Id, data: ED) = new Edge(id, srcId, dstId, data)
 }
 
+class EdgeTriplet[VD, ED] private(val srcVertex: Vertex[VD], val dstVertex: Vertex[VD], val edge: Edge[ED])
+
+object EdgeTriplet {
+  def apply[VD, ED](srcVertex: Vertex[VD], dstVertex: Vertex[VD], edge: Edge[ED]) = new EdgeTriplet[VD, ED](srcVertex, dstVertex, edge)
+}
 

@@ -3,17 +3,21 @@ package org.zviri.graphslices
 object Algorithms {
 
   def pagerank[VD, ED](graph: Graph[VD, ED], resetProb: Double = 0.15, numIter: Int = 100): Graph[Double, Double] = {
-    val degrees = graph.reverseEdges().degree()
-    val degMap = degrees.vertices.map(v => (v.id, v.data)).toMap[Id, Int] //TODO: replace by edge weights
+    val degrees = graph.outDegree().vertices.map(v => (v.id, v.data))
 
     var i = 0
-    var rankGraph = graph.mapVertices[Double](_ => 1.0).mapEdges(_ => 1.0)
+    var rankGraph = graph.outerJoinVertices(degrees) {
+      (vertex, degree) => degree.getOrElse(0)
+    }.mapTriplets(
+      triplet => 1.0 / triplet.srcVertex.data
+    ).mapVertices[Double](_ => 1.0)
+
     while (i < numIter) {
       i += 1
 
       val rankUpdates = rankGraph.aggregateNeighbors[Double](
-        (v, e) => v.data / degMap(v.id),
-        (a, b) => a + b
+        (v, e) => v.data * e.data,
+        _ + _
       )
 
       rankGraph = rankGraph.outerJoinVertices(rankUpdates.vertices.map(v => (v.id, v.data))) {
