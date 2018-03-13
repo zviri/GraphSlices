@@ -40,7 +40,7 @@ object Algorithms {
   }
 
   case class HitsScore(hub: Double, authority: Double)
-  def hits[VD, ED](graph: Graph[VD, ED], numIter: Int = 100): Graph[HitsScore, Double] = {
+  def hits[VD, ED](graph: Graph[VD, ED], numIter: Int = 100, normalizeEvery: Int = 5): Graph[HitsScore, Double] = {
 
     def normalizeRec(graph: Graph[Double, Double]): Graph[Double, Double] = {
       if (graph.numDimensions == 1) {
@@ -51,12 +51,10 @@ object Algorithms {
       }
     }
 
-    var i = 0
+    var i = 1
     var hGraph = graph.mapVertices(_ => 1.0 / graph.vertices.size).mapEdges(_ => 1.0)
     var aGraph = hGraph.reverseEdges()
-    while (i < numIter) {
-      i += 1
-
+    while (i < numIter + 1) {
       val hGraphUpdates = hGraph.aggregateNeighbors[Double](
         (v, _) => v.data,
         (a, b) => a + b
@@ -72,10 +70,16 @@ object Algorithms {
       hGraph = hGraph.outerJoinVertices(aGraphUpdates.vertices.map(v => (v.id, v.data))) {
         (vertex, aSum) => aSum.getOrElse(0.0)
       }
+
+      if (i % normalizeEvery == 0) {
+        hGraph = normalizeRec(hGraph)
+        aGraph = normalizeRec(aGraph)
+      }
+
+      i += 1
     }
 
-    hGraph = normalizeRec(hGraph)
-    aGraph = normalizeRec(aGraph)
+
 
     hGraph.outerJoinVertices(aGraph.vertices.map(v => (v.id, v.data))) {
       (vertex, authority) => HitsScore(vertex.data, authority.getOrElse(0.0))

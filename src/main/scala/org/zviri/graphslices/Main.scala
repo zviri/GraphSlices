@@ -6,10 +6,7 @@ import scala.io.Source
 
 object Main {
   case class NodeIsir(id: Long, name: String, nodeType: String)
-  case class EdgeIsir(sourceId: Long, targetId: Long, edgeType: String, year: Int)
-
-
-
+  case class EdgeIsir(sourceId: Long, targetId: Long, source: String, target: String, edgeType: String, year: Int)
 
 
   def main(args: Array[String]): Unit = {
@@ -35,10 +32,16 @@ object Main {
         ).getLines().drop(1).map(
           row => row.trim.split("\t", 3)
         ).map {
-          case Array(sourceId, targetId, edgeType) => EdgeIsir(sourceId.hashCode, targetId.hashCode, edgeType, year)
+          case Array(sourceId, targetId, edgeType) => EdgeIsir(sourceId.hashCode, targetId.hashCode, sourceId, targetId, edgeType, year)
         }.toVector
         edges
-    }.filter(e => nodesSet.contains(e.sourceId) && nodesSet.contains(e.targetId))
+    }.filter(
+      e => nodesSet.contains(e.sourceId) && nodesSet.contains(e.targetId)
+    ).groupBy(
+      e => (e.sourceId, e.targetId)
+    ).map {
+      case (key, grp) => grp.head
+    }
 
     val vertices = nodesIsir.map(n => Vertex[Double](Seq(n.id), 1.0 / nodesIsir.length)).toVector
     val edges = edgesIsir.zipWithIndex.map {
@@ -46,7 +49,7 @@ object Main {
     }.toVector
     val graph = Graph(vertices, edges).pushDimension(e => Seq(e.data))
 
-    val graphPr = Algorithms.pagerank(graph, numIter = 200)
+    val graphPr = Algorithms.hits(graph, numIter = 100)
     val graphPrMap = graphPr.vertices.map(v => (v.id, v.data)).toMap
     for (node <- nodesIsir.drop(1).take(100)) {
       println(node.nodeType)

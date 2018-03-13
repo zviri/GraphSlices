@@ -123,7 +123,10 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
 }
 
 object Graph {
-  def apply[VD, ED](vertices: Seq[Vertex[VD]], edges: Seq[Edge[ED]]): Graph[VD, ED] = new Graph(vertices, edges, 1)
+  def apply[VD, ED](vertices: Seq[Vertex[VD]], edges: Seq[Edge[ED]]): Graph[VD, ED] = {
+    require(vertices.length == vertices.map(_.id).distinct.length, "The list of vertices must contain unique vertices.")
+    new Graph(vertices, edges, 1)
+  }
 }
 
 class Vertex[VD] private(val id: Id, val data: VD)
