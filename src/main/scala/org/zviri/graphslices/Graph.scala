@@ -90,7 +90,7 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
           case (id, vertex) => (id, Vertex(id, vertex.data))
         }
         val currEdges = edgeIndex(key).flatten.map {
-          case (id, edge) => (id, Edge(id, edge.srcId.drop(1), edge.dstId.drop(1), edge.data)) // TODO:  get rid of this drop appends when editing keys
+          case (id, edge) => (id, Edge(id, edge.srcId.drop(1), edge.dstId.drop(1), edge.data))
         }
         (key, new Graph(currVertices.map(_._2), currEdges.map(_._2), numDimensions - 1))
     }.map {

@@ -53,7 +53,7 @@ object Algorithms {
 
     var i = 0
     var hGraph = graph.mapVertices(_ => 1.0 / graph.vertices.size).mapEdges(_ => 1.0)
-    var aGraph = graph.mapVertices(_ => 1.0 / graph.vertices.size).mapEdges(_ => 1.0).reverseEdges()
+    var aGraph = hGraph.reverseEdges()
     while (i < numIter) {
       i += 1
 
@@ -72,10 +72,10 @@ object Algorithms {
       hGraph = hGraph.outerJoinVertices(aGraphUpdates.vertices.map(v => (v.id, v.data))) {
         (vertex, aSum) => aSum.getOrElse(0.0)
       }
-
-      hGraph = normalizeRec(hGraph)
-      aGraph = normalizeRec(aGraph)
     }
+
+    hGraph = normalizeRec(hGraph)
+    aGraph = normalizeRec(aGraph)
 
     hGraph.outerJoinVertices(aGraph.vertices.map(v => (v.id, v.data))) {
       (vertex, authority) => HitsScore(vertex.data, authority.getOrElse(0.0))
