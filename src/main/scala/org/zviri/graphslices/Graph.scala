@@ -27,13 +27,14 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
 
   def numDimensions: Int = _numDimensions
 
-  def aggregateNeighbors[A](mapFunc: (Vertex[VD], Edge[ED]) => A, reduceFunc: (A, A) => A): Graph[A, ED] = {
+  def aggregateNeighbors[A](mapFunc: (EdgeContext[VD, ED, A]) => Seq[Message[A]], reduceFunc: (A, A) => A): Graph[A, ED] = {
     val vertexMap = vertices.map(v => (v.id, v)).toMap
 
-    val newVertices = edges.map(
-      edge => (edge.dstId, mapFunc(vertexMap(edge.srcId), edge))
-    ).groupBy(_._1).map(
-      group => (group._1, group._2.map(_._2).reduce(reduceFunc))
+    val newVertices = edges.flatMap {
+      edge =>
+        mapFunc(new EdgeContext(vertexMap(edge.srcId), vertexMap(edge.dstId), edge))
+    }.groupBy(_.vertexId).map(
+      group => (group._1, group._2.map(_.message).reduce(reduceFunc))
     ).toVector.map(v => Vertex(v._1, v._2))
 
     new Graph(newVertices, edges, numDimensions)
@@ -111,7 +112,7 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
   }
 
   def inDegree(): Graph[Int, ED] = {
-    val degrees = aggregateNeighbors[Int]((_, _) => 1, (a, b) => a + b).vertices.map(v => (v.id, v.data))
+    val degrees = aggregateNeighbors[Int](ctx => Seq(ctx.msgToDst(1)), (a, b) => a + b).vertices.map(v => (v.id, v.data))
     this.outerJoinVertices(degrees) {
       (v, d) => d.getOrElse(0)
     }
@@ -147,3 +148,15 @@ object EdgeTriplet {
   def apply[VD, ED](srcVertex: Vertex[VD], dstVertex: Vertex[VD], edge: Edge[ED]) = new EdgeTriplet[VD, ED](srcVertex, dstVertex, edge)
 }
 
+case class Message[A] private (vertexId: Id, message: A)
+
+class EdgeContext[VD, ED, A](val srcVertex: Vertex[VD], val dstVertex: Vertex[VD], val edge: Edge[ED]) {
+
+  def msgToSrc(message: A): Message[A] = {
+    Message(srcVertex.id, message)
+  }
+
+  def msgToDst(message: A): Message[A] = {
+    Message(dstVertex.id, message)
+  }
+}

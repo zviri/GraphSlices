@@ -40,8 +40,10 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.edgeIndex(4).value.get.data shouldEqual (4 / 3.0)
   }
 
-  "aggregateNeighbours" should "send message via mapFunc over each edge and aggregate incoming edges via reduceFunc" in {
-    val graphTransformed = testGraphSimple.aggregateNeighbors[Double]((v, e) => (v.data * e.data).toDouble, (m1, m2) => m1 + m2)
+  "aggregateNeighbours" should "sends message via mapFunc over each edge (in-direction) and aggregates incoming edges via reduceFunc" in {
+    val graphTransformed = testGraphSimple.aggregateNeighbors[Double](
+      ctx => Seq(ctx.msgToDst(ctx.srcVertex.data * ctx.edge.data.toDouble)), (m1, m2) => m1 + m2
+    )
 
     a[NoSuchElementException] should be thrownBy {
       graphTransformed.vertexIndex(1)
@@ -50,6 +52,20 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.vertexIndex(2).value.get.data shouldEqual 1.0
     graphTransformed.vertexIndex(3).value.get.data shouldEqual 2.0
     graphTransformed.vertexIndex(4).value.get.data shouldEqual 18.0
+  }
+
+  "aggregateNeighbours" should "sends message via mapFunc over each edge (against-direction) and aggregates incoming edges via reduceFunc" in {
+    val graphTransformed = testGraphSimple.aggregateNeighbors[Double](
+      ctx => Seq(ctx.msgToSrc(ctx.dstVertex.data * ctx.edge.data.toDouble)), (m1, m2) => m1 + m2
+    )
+
+    a[NoSuchElementException] should be thrownBy {
+      graphTransformed.vertexIndex(4)
+    }
+
+    graphTransformed.vertexIndex(1).value.get.data shouldEqual 8.0
+    graphTransformed.vertexIndex(2).value.get.data shouldEqual 12.0
+    graphTransformed.vertexIndex(3).value.get.data shouldEqual 16.0
   }
 
   "outerJoinVertices" should "" in {
