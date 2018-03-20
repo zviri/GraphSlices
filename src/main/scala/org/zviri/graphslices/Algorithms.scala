@@ -151,4 +151,18 @@ object Algorithms {
     graphIter.mapVertices(v => if (v.data.status == InS) 1 else 0)
   }
 
+  def greedyColor[VD, ED](graph: Graph[VD, ED], maxIter: Int = 30): Graph[Int, ED] = {
+    var graphIter = graph.mapVertices(_ => 0)
+    var color = 0
+    var newVertices = Seq[Vertex[Int]]()
+
+    while (graphIter.vertices.nonEmpty) {
+      val indSet = maxIndependentSet(graphIter)
+      newVertices ++= indSet.vertices.filter(v => v.data == 1).map(v => Vertex(v.id, color))
+      graphIter = indSet.subgraph(vertexPredicate = vertex => vertex.data == 0)
+      color += 1
+    }
+
+    Graph(newVertices, graph.edges)
+  }
 }

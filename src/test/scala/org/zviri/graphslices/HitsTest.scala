@@ -228,7 +228,7 @@ class HitsTest extends FunSuite with Matchers {
       Edge(Seq(6), Seq(6), Seq(7), Unit),
       Edge(Seq(7), Seq(7), Seq(8), Unit),
       Edge(Seq(8), Seq(8), Seq(9), Unit),
-      Edge(Seq(8), Seq(9), Seq(1), Unit)
+      Edge(Seq(9), Seq(9), Seq(1), Unit)
     ))
 
     val prGraph = Algorithms.hits(graph, numIter = 100)
