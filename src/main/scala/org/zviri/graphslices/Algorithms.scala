@@ -165,4 +165,48 @@ object Algorithms {
 
     Graph(newVertices, graph.edges)
   }
+
+  def clusterLPA[VD, ED](graph: Graph[VD, ED]): Graph[Int, ED] = {
+
+    val coloredGraph = greedyColor(graph)
+
+    case class LPA(color: Int, var cluster: Int)
+
+    val lpaVertices: Seq[Vertex[LPA]] = coloredGraph.vertices.zipWithIndex.map { case (v, idx) => Vertex(v.id, LPA(v.data, idx)) }
+    var graphIter = Graph(lpaVertices, graph.edges)
+    val maxColor = coloredGraph.vertices.map(v => v.data).max
+
+    var isUpdate = true
+
+    while (isUpdate) {
+      Range(0, maxColor + 1).foreach { color =>
+          val clusterUpdates = graphIter.aggregateNeighbors[Seq[Int]](
+            ctx => Seq(
+              (ctx.dstVertex.data.color == color, ctx.msgToDst(Seq(ctx.srcVertex.data.cluster))),
+              (ctx.srcVertex.data.color == color, ctx.msgToSrc(Seq(ctx.dstVertex.data.cluster)))
+            ).filter(_._1).map(_._2), _ ++ _
+          ).vertices.filter(v => v.data.nonEmpty).map(
+            v => {
+              (v.id, v.data.groupBy(c => c).toSeq.map {
+                case (group, values) => (values.size, group)
+              }.max._2)
+            }
+          )
+
+          val graphNewClusters = graphIter.outerJoinVertices(clusterUpdates) {
+            (vertex, clusterUpdate) =>
+              val newCluster = clusterUpdate.getOrElse(vertex.data.cluster)
+              val updated = newCluster != vertex.data.cluster
+              vertex.data.cluster = newCluster
+              (vertex.data, updated)
+          }
+
+          graphIter = graphNewClusters.mapVertices(v => v.data._1)
+          isUpdate = graphNewClusters.vertices.exists(v => v.data._2)
+      }
+    }
+
+    val reindexClustersMap = graphIter.vertices.map(v => v.data.cluster).distinct.sorted.zipWithIndex.toMap
+    graphIter.mapVertices(v => reindexClustersMap(v.data.cluster))
+  }
 }
