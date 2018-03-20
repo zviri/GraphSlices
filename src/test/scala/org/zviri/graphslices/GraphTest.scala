@@ -32,12 +32,28 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.edgeIndex(4).value.get.data shouldEqual 5.0
   }
 
+  "triplets" should "return list of all (vertex, edge, vertex) triplets in the graph" in {
+    testGraphSimple.triplets().map(
+      triplet => (triplet.srcVertex.id, triplet.dstVertex.id, triplet.edge.id)
+    ) should contain theSameElementsAs
+      Seq((Seq(1), Seq(2), Seq(1)), (Seq(1), Seq(3), Seq(2)), (Seq(2), Seq(4), Seq(3)), (Seq(3), Seq(4), Seq(4)))
+  }
+
   "mapTriplets" should "transform edge data providing access to from vertices" in {
     val graphTransformed = testGraphSimple.mapTriplets(triplet => triplet.edge.data / triplet.srcVertex.data.toDouble)
     graphTransformed.edgeIndex(1).value.get.data shouldEqual 1.0
     graphTransformed.edgeIndex(2).value.get.data shouldEqual 2.0
     graphTransformed.edgeIndex(3).value.get.data shouldEqual (3 / 2.0)
     graphTransformed.edgeIndex(4).value.get.data shouldEqual (4 / 3.0)
+  }
+
+  "subgraph" should "return a filtered subgraph based on the provided predicates" in {
+    val transformedGraph = testGraphSimple.subgraph(
+      triplet => triplet.edge.id != Seq(1), vertex => vertex.id != Seq(4)
+    )
+
+    transformedGraph.edges.map(_.id) should contain theSameElementsAs Seq(Seq(2))
+    transformedGraph.vertices.map(_.id) should contain theSameElementsAs Seq(Seq(1), Seq(2), Seq(3))
   }
 
   "aggregateNeighbours" should "sends message via mapFunc over each edge (in-direction) and aggregates incoming edges via reduceFunc" in {

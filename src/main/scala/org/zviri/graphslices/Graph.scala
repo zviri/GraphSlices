@@ -15,17 +15,28 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
     new Graph[VD, ED2](vertices, edges.map(edge => Edge(edge.id, edge.srcId, edge.dstId, map(edge))), numDimensions)
   }
 
+  def triplets(): Seq[EdgeTriplet[VD, ED]] = {
+    val vertexMap = vertices.map(v => (v.id, v)).toMap
+    edges.map(e => EdgeTriplet(vertexMap(e.srcId), vertexMap(e.dstId), e))
+  }
+
   def mapTriplets[ED2](mapFunc: EdgeTriplet[VD, ED] => ED2)
   : Graph[VD, ED2] = {
-    val vertexMap = vertices.map(v => (v.id, v)).toMap
-    val newEdges = edges.map(e => {
-      val edgeData = mapFunc(EdgeTriplet(vertexMap(e.srcId), vertexMap(e.dstId), e))
-      Edge(e.id, e.srcId, e.dstId, edgeData)
-    })
+    val newEdges = triplets().map(triplet => Edge(triplet.edge.id, triplet.edge.srcId, triplet.edge.dstId, mapFunc(triplet)))
+
     new Graph(vertices, newEdges, numDimensions)
   }
 
   def numDimensions: Int = _numDimensions
+
+  def subgraph(edgePredicate: EdgeTriplet[VD, ED] => Boolean = x => true, vertexPredicate: Vertex[VD] => Boolean = x => true)
+  : Graph[VD, ED] = {
+    val newVertices = vertices.filter(vertexPredicate)
+    val newEdges = triplets().filter(
+      triplet => vertexPredicate(triplet.srcVertex) && vertexPredicate(triplet.dstVertex) && edgePredicate(triplet)
+    ).map(triplet => triplet.edge)
+    new Graph(newVertices, newEdges, numDimensions)
+  }
 
   def aggregateNeighbors[A](mapFunc: (EdgeContext[VD, ED, A]) => Seq[Message[A]], reduceFunc: (A, A) => A): Graph[A, ED] = {
     val vertexMap = vertices.map(v => (v.id, v)).toMap
@@ -142,11 +153,7 @@ object Edge {
   def apply[ED](id: Id, srcId: Id, dstId: Id, data: ED) = new Edge(id, srcId, dstId, data)
 }
 
-class EdgeTriplet[VD, ED] private(val srcVertex: Vertex[VD], val dstVertex: Vertex[VD], val edge: Edge[ED])
-
-object EdgeTriplet {
-  def apply[VD, ED](srcVertex: Vertex[VD], dstVertex: Vertex[VD], edge: Edge[ED]) = new EdgeTriplet[VD, ED](srcVertex, dstVertex, edge)
-}
+case class EdgeTriplet[VD, ED] private(srcVertex: Vertex[VD], dstVertex: Vertex[VD], edge: Edge[ED])
 
 case class Message[A] private (vertexId: Id, message: A)
 
