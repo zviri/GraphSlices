@@ -26,14 +26,14 @@ object Algorithms {
     inDegreeWeighted(graph.reverseEdges())
   }
 
-  def pagerank[VD, ED](graph: Graph[VD, ED], resetProb: Double = 0.15, numIter: Int = 100): Graph[Double, Double] = {
-    val degrees = outDegree(graph).vertices.map(v => (v.id, v.data))
+  def pagerank[VD](graph: Graph[VD, Double], resetProb: Double = 0.15, numIter: Int = 100): Graph[Double, Double] = {
+    val degrees = outDegreeWeighted(graph).vertices.map(v => (v.id, v.data))
 
     var i = 0
     var rankGraph = graph.outerJoinVertices(degrees) {
-      (vertex, degree) => degree.getOrElse(0)
+      (vertex, degree) => degree.getOrElse(0.0)
     }.mapTriplets(
-      triplet => 1.0 / triplet.srcVertex.data
+      triplet => triplet.edge.data / triplet.srcVertex.data
     ).mapVertices[Double](_ => 1.0)
 
     while (i < numIter) {
@@ -64,6 +64,7 @@ object Algorithms {
   }
 
   case class HitsScore(hub: Double, authority: Double)
+
   def hits[VD, ED](graph: Graph[VD, ED], numIter: Int = 100, normalizeEvery: Int = 5): Graph[HitsScore, Double] = {
 
     def normalizeRec(graph: Graph[Double, Double]): Graph[Double, Double] = {
