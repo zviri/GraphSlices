@@ -221,20 +221,4 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.edgeIndex(4).value.get.srcId.head shouldEqual 4
     graphTransformed.edgeIndex(4).value.get.dstId.head shouldEqual 3
   }
-
-  "inDegree" should "return a in-degree graph" in {
-    val degreeGraph = testGraphSimple.inDegree()
-    degreeGraph.vertexIndex(1).value.get.data shouldEqual 0
-    degreeGraph.vertexIndex(2).value.get.data shouldEqual 1
-    degreeGraph.vertexIndex(3).value.get.data shouldEqual 1
-    degreeGraph.vertexIndex(4).value.get.data shouldEqual 2
-  }
-
-  "outDegree" should "return a out-degree graph" in {
-    val degreeGraph = testGraphSimple.outDegree()
-    degreeGraph.vertexIndex(1).value.get.data shouldEqual 2
-    degreeGraph.vertexIndex(2).value.get.data shouldEqual 1
-    degreeGraph.vertexIndex(3).value.get.data shouldEqual 1
-    degreeGraph.vertexIndex(4).value.get.data shouldEqual 0
-  }
 }

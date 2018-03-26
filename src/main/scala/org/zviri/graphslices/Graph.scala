@@ -121,17 +121,6 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
   def reverseEdges(): Graph[VD, ED] = {
     new Graph(vertices, edges.map(e => Edge(e.id, e.dstId, e.srcId, e.data)), numDimensions)
   }
-
-  def inDegree(): Graph[Int, ED] = {
-    val degrees = aggregateNeighbors[Int](ctx => Seq(ctx.msgToDst(1)), (a, b) => a + b).vertices.map(v => (v.id, v.data))
-    this.outerJoinVertices(degrees) {
-      (v, d) => d.getOrElse(0)
-    }
-  }
-
-  def outDegree(): Graph[Int, ED] = {
-    reverseEdges().inDegree()
-  }
 }
 
 object Graph {

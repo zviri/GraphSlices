@@ -4,8 +4,30 @@ import scala.util.Random
 
 object Algorithms {
 
+  def inDegree[VD, ED](graph: Graph[VD, ED]): Graph[Int, ED] = {
+    val degrees = graph.aggregateNeighbors[Int](ctx => Seq(ctx.msgToDst(1)), (a, b) => a + b).vertices.map(v => (v.id, v.data))
+    graph.outerJoinVertices(degrees) {
+      (v, d) => d.getOrElse(0)
+    }
+  }
+
+  def outDegree[VD, ED](graph: Graph[VD, ED]): Graph[Int, ED] = {
+    inDegree(graph.reverseEdges())
+  }
+
+  def inDegreeWeighted[VD](graph: Graph[VD, Double]): Graph[Double, Double] = {
+    val degrees = graph.aggregateNeighbors[Double](ctx => Seq(ctx.msgToDst(ctx.edge.data)), (a, b) => a + b).vertices.map(v => (v.id, v.data))
+    graph.outerJoinVertices(degrees) {
+      (v, d) => d.getOrElse(0.0)
+    }
+  }
+
+  def outDegreeWeighted[VD](graph: Graph[VD, Double]): Graph[Double, Double] = {
+    inDegreeWeighted(graph.reverseEdges())
+  }
+
   def pagerank[VD, ED](graph: Graph[VD, ED], resetProb: Double = 0.15, numIter: Int = 100): Graph[Double, Double] = {
-    val degrees = graph.outDegree().vertices.map(v => (v.id, v.data))
+    val degrees = outDegree(graph).vertices.map(v => (v.id, v.data))
 
     var i = 0
     var rankGraph = graph.outerJoinVertices(degrees) {
@@ -97,7 +119,7 @@ object Algorithms {
     case class MIS(var status: Status, var degree: Int, var active: Boolean)
 
 
-    var graphIter = graph.inDegree().outerJoinVertices(graph.outDegree().vertices.map(v => (v.id, v.data))) {
+    var graphIter = inDegree(graph).outerJoinVertices(outDegree(graph).vertices.map(v => (v.id, v.data))) {
       (inDegVertex, outDegVertex) => inDegVertex.data + outDegVertex.getOrElse(0)
     }.mapVertices(v => MIS(Unknown, v.data, active = true))
 
