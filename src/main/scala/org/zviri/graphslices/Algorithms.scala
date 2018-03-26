@@ -65,7 +65,7 @@ object Algorithms {
 
   case class HitsScore(hub: Double, authority: Double)
 
-  def hits[VD, ED](graph: Graph[VD, ED], numIter: Int = 100, normalizeEvery: Int = 5): Graph[HitsScore, Double] = {
+  def hits[VD](graph: Graph[VD, Double], numIter: Int = 100, normalizeEvery: Int = 5): Graph[HitsScore, Double] = {
 
     def normalizeRec(graph: Graph[Double, Double]): Graph[Double, Double] = {
       if (graph.numDimensions == 1) {
@@ -77,11 +77,11 @@ object Algorithms {
     }
 
     var i = 1
-    var hGraph = graph.mapVertices(_ => 1.0 / graph.vertices.size).mapEdges(_ => 1.0)
+    var hGraph = graph.mapVertices(_ => 1.0 / graph.vertices.size)
     var aGraph = hGraph.reverseEdges()
     while (i < numIter + 1) {
       val hGraphUpdates = hGraph.aggregateNeighbors[Double](
-        edgeCtx => Seq(edgeCtx.msgToDst(edgeCtx.srcVertex.data)),
+        edgeCtx => Seq(edgeCtx.msgToDst(edgeCtx.srcVertex.data * edgeCtx.edge.data)),
         (a, b) => a + b
       )
       aGraph = aGraph.outerJoinVertices(hGraphUpdates.vertices.map(v => (v.id, v.data))) {
@@ -89,7 +89,7 @@ object Algorithms {
       }
 
       val aGraphUpdates = aGraph.aggregateNeighbors[Double](
-        edgeCtx => Seq(edgeCtx.msgToDst(edgeCtx.srcVertex.data)),
+        edgeCtx => Seq(edgeCtx.msgToDst(edgeCtx.srcVertex.data * edgeCtx.edge.data)),
         (a, b) => a + b
       )
       hGraph = hGraph.outerJoinVertices(aGraphUpdates.vertices.map(v => (v.id, v.data))) {
