@@ -8,7 +8,7 @@ class PageRankTest extends FunSuite with Matchers {
 
   val errTol = 0.00001
 
-  // UN-WEIGHTED
+  ////////////////////// UN-WEIGHTED ///////////////////////////
 
   test("Simple graph") {
     val graph = Graph(Vector(
