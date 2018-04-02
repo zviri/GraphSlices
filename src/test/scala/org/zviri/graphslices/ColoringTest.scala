@@ -121,16 +121,16 @@ class ColoringTest extends FlatSpec with Matchers {
       Vertex(Seq(3), Unit),
       Vertex(Seq(4), Unit)
     ), Vector(
-      Edge(Seq(1), Seq(1), Seq(2), 1),
-      Edge(Seq(2), Seq(2), Seq(3), 1),
-      Edge(Seq(3), Seq(3), Seq(1), 1),
-      Edge(Seq(4), Seq(2), Seq(4), 1),
-      Edge(Seq(6), Seq(1), Seq(2), 2),
-      Edge(Seq(7), Seq(2), Seq(3), 2),
-      Edge(Seq(8), Seq(3), Seq(1), 2),
-      Edge(Seq(9), Seq(2), Seq(4), 2),
-      Edge(Seq(5), Seq(4), Seq(1), 2)
-    )).pushDimension(e => Seq(e. data))
+      Edge(Seq(1), Seq(1), Seq(2), 1L),
+      Edge(Seq(2), Seq(2), Seq(3), 1L),
+      Edge(Seq(3), Seq(3), Seq(1), 1L),
+      Edge(Seq(4), Seq(2), Seq(4), 1L),
+      Edge(Seq(6), Seq(1), Seq(2), 2L),
+      Edge(Seq(7), Seq(2), Seq(3), 2L),
+      Edge(Seq(8), Seq(3), Seq(1), 2L),
+      Edge(Seq(9), Seq(2), Seq(4), 2L),
+      Edge(Seq(5), Seq(4), Seq(1), 2L)
+    )).pushDimension(e => Seq((e.data, e.data)))
 
     for (_ <- Range(1, 100)) { // randomized algorithm, testing multiple times
     val independentSet = Algorithms.maxIndependentSet(graph)

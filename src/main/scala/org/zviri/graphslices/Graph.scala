@@ -58,9 +58,11 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
     new Graph(newVertices, edges, numDimensions)
   }
 
-  def pushDimension(mapToSubKey: Edge[ED] => Seq[Long]): Graph[VD, ED] = {
+  def pushDimension[ED2](mapToSubKey: Edge[ED] => Seq[(Long, ED2)]): Graph[VD, ED2] = {
     val newEdges = edges.flatMap(
-      e => mapToSubKey(e).map(id => Edge(id +: e.id, id +: e.srcId, id +: e.dstId, e.data))
+      e => mapToSubKey(e).map {
+        case (id, data) => Edge(id +: e.id, id +: e.srcId, id +: e.dstId, data)
+      }
     )
 
     val vertexMap = vertices.map(v => (v.id, v)).toMap
@@ -144,7 +146,7 @@ object Edge {
 
 case class EdgeTriplet[VD, ED] private(srcVertex: Vertex[VD], dstVertex: Vertex[VD], edge: Edge[ED])
 
-case class Message[A] private (vertexId: Id, message: A)
+case class Message[A] private(vertexId: Id, message: A)
 
 class EdgeContext[VD, ED, A](val srcVertex: Vertex[VD], val dstVertex: Vertex[VD], val edge: Edge[ED]) {
 

@@ -49,7 +49,7 @@ class HitsTest extends FunSuite with Matchers {
       Edge(Seq(8), Seq(3), Seq(1), 2),
       Edge(Seq(9), Seq(2), Seq(4), 2),
       Edge(Seq(5), Seq(4), Seq(1), 2)
-    )).pushDimension(e => Seq(e. data)).mapEdges(_ => 1.0)
+    )).pushDimension(e => Seq((e.data.toLong, 1.0)))
 
     val haGraph = Algorithms.hits(graph, numIter = 100)
     assert(haGraph.vertexIndex(1)(1).value.get.data.hub === 3.7252902707063384e-09 +- errTol)

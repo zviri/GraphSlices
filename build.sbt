@@ -8,7 +8,8 @@ lazy val root = (project in file(".")).
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.4" % "test",
-  "org.scalactic" %% "scalactic" % "3.0.4"
+  "org.scalactic" %% "scalactic" % "3.0.4",
+  "joda-time" % "joda-time" % "2.9.9"
 )
 
 assemblyMergeStrategy in assembly <<= (mergeStrategy in assembly) {

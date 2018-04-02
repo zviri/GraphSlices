@@ -98,7 +98,7 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   "pushDimension" should "should add a new dimension to the graph and prepend the new subkey to existing ids" in {
-    val graphTransformed = testGraphSimple.pushDimension(e => (1 to 2).map(_.toLong))
+    val graphTransformed = testGraphSimple.pushDimension(e => (1 to 2).map(dim => (dim.toLong, e.data)))
 
     graphTransformed.vertexIndex(1)(1).value.get.data shouldEqual 1
     graphTransformed.vertexIndex(1)(2).value.get.data shouldEqual 2
@@ -132,7 +132,7 @@ class GraphTest extends FlatSpec with Matchers {
       Edge(Seq(1), Seq(1), Seq(2), 11),
       Edge(Seq(2), Seq(2), Seq(3), 12),
       Edge(Seq(3), Seq(3), Seq(1), 13)
-    )).pushDimension(e => (1 to 2).map(_.toLong))
+    )).pushDimension(e => (1 to 2).map(dim => (dim.toLong, e.data)))
 
     val graphTransformed = graph.popDimension(
       vertices => vertices.map(_._3),
@@ -160,7 +160,7 @@ class GraphTest extends FlatSpec with Matchers {
   "numDimensions" should "return number of dimensions in the graph" in {
     testGraphSimple.numDimensions shouldEqual 1
 
-    val graphTransformed = testGraphSimple.pushDimension(e => (1 to 2).map(_.toLong))
+    val graphTransformed = testGraphSimple.pushDimension(e => (1 to 2).map(dim => (dim.toLong, e.data)))
     graphTransformed.numDimensions shouldEqual 2
 
     graphTransformed.popDimension(
@@ -171,7 +171,7 @@ class GraphTest extends FlatSpec with Matchers {
 
   "mapDimension" should "should apply mapFunc to each graph in the last dimension added" in {
     val graphTransformed = testGraphSimple.pushDimension(
-      e => (1 to 2).map(_.toLong)
+      e => (1 to 2).map(dim => (dim.toLong, e.data))
     ).mapDimension(
       g => {
         g.numDimensions shouldEqual 1
