@@ -32,6 +32,14 @@ class AlgorithmsTest extends FlatSpec with Matchers {
     degreeGraph.vertexIndex(4).value.get.data shouldEqual 0
   }
 
+  "degree" should "return an undirected-degree graph" in {
+    val degreeGraph = Algorithms.degree(testGraphSimple)
+    degreeGraph.vertexIndex(1).value.get.data shouldEqual 2
+    degreeGraph.vertexIndex(2).value.get.data shouldEqual 2
+    degreeGraph.vertexIndex(3).value.get.data shouldEqual 2
+    degreeGraph.vertexIndex(4).value.get.data shouldEqual 2
+  }
+
   "inDegreeWeighted" should "return a in-degree graph weighted by edge weights" in {
     val degreeGraph = Algorithms.inDegreeWeighted(testGraphSimple)
     degreeGraph.vertexIndex(1).value.get.data shouldEqual 0.0

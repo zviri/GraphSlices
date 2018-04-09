@@ -15,6 +15,12 @@ object Algorithms {
     inDegree(graph.reverseEdges())
   }
 
+  def degree[VD, ED](graph: Graph[VD, ED]): Graph[Int, ED] = {
+    inDegree(graph).outerJoinVertices(outDegree(graph).vertices.map(v => (v.id, v.data))) {
+      (vertex, outDegree) => vertex.data + outDegree.getOrElse(0)
+    }
+  }
+
   def inDegreeWeighted[VD](graph: Graph[VD, Double]): Graph[Double, Double] = {
     val degrees = graph.aggregateNeighbors[Double](ctx => Seq(ctx.msgToDst(ctx.edge.data)), (a, b) => a + b).vertices.map(v => (v.id, v.data))
     graph.outerJoinVertices(degrees) {
