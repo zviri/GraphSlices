@@ -69,6 +69,28 @@ object Algorithms {
     normalizeRec(rankGraph)
   }
 
+  def evolvingPagerank[VD](graph: Graph[VD, Double],
+                           timeDecayFunc: (Double) => Double = (time: Double) => 1.0 / (time * time),
+                           resetProb: Double = 0.15, numIter: Int = 100): Graph[Seq[(Long, Double)], Unit.type] = {
+    require(graph.numDimensions > 1, "Graph must have at least one dimension")
+
+    pagerank(
+      graph, resetProb, numIter
+    ).popDimension(
+      vs => vs.map { case (topKey, key, pr) => (topKey, pr)}.sorted,
+      es => Unit
+    ).mapVertices(v =>
+      v.data.zipWithIndex.map {
+        case ((key, _), i) =>
+          (key,
+           v.data.take(i + 1).zipWithIndex.map {
+             case ((_, pr), idx) => pr * timeDecayFunc(i - idx + 1) // calculating decaying PR
+           }.sum / (1 to i + 1).map(i2 => timeDecayFunc(i2)).sum    // normalization
+          )
+        }
+    )
+  }
+
   case class HitsScore(hub: Double, authority: Double)
 
   def hits[VD](graph: Graph[VD, Double], numIter: Int = 100, normalizeEvery: Int = 5): Graph[HitsScore, Double] = {
