@@ -120,7 +120,30 @@ class GraphTest extends FlatSpec with Matchers {
     graphTransformed.edgeIndex(2)(2).value.get.data shouldEqual 2
     graphTransformed.edgeIndex(2)(3).value.get.data shouldEqual 3
     graphTransformed.edgeIndex(2)(4).value.get.data shouldEqual 4
+  }
 
+  "pushDimension" should "should add a new dimension to the graph and keep all the nodes in every time window" in {
+    val graphTransformed = Graph(Seq(
+      Vertex(Seq(1), 1),
+      Vertex(Seq(2), 2),
+      Vertex(Seq(3), 3)
+    ), Seq(
+      Edge(Seq(1), Seq(1), Seq(2), 1),
+      Edge(Seq(2), Seq(2), Seq(3), 2)
+    )).pushDimension(e => Seq((e.data.toLong, e.data)), keepAllNodes = true)
+
+    graphTransformed.vertexIndex(1)(1).value.get.data shouldEqual 1
+    graphTransformed.vertexIndex(1)(2).value.get.data shouldEqual 2
+    graphTransformed.vertexIndex(1)(3).value.get.data shouldEqual 3
+
+    graphTransformed.vertexIndex(2)(1).value.get.data shouldEqual 1
+    graphTransformed.vertexIndex(2)(2).value.get.data shouldEqual 2
+    graphTransformed.vertexIndex(2)(3).value.get.data shouldEqual 3
+
+
+    graphTransformed.edgeIndex(1)(1).value.get.data shouldEqual 1
+
+    graphTransformed.edgeIndex(2)(2).value.get.data shouldEqual 2
   }
 
   "popDimension" should "should remove on dimension from the graph and aggregate nodes/edges across that dimension" in {

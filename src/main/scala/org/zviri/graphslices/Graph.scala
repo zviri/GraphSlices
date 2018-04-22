@@ -58,7 +58,7 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
     new Graph(newVertices, edges, numDimensions)
   }
 
-  def pushDimension[ED2](mapToSubKey: Edge[ED] => Seq[(Long, ED2)]): Graph[VD, ED2] = {
+  def pushDimension[ED2](mapToSubKey: Edge[ED] => Seq[(Long, ED2)], keepAllNodes: Boolean = false): Graph[VD, ED2] = {
     val newEdges = edges.flatMap(
       e => mapToSubKey(e).map {
         case (id, data) => Edge(id +: e.id, id +: e.srcId, id +: e.dstId, data)
@@ -66,9 +66,18 @@ class Graph[VD, ED] private(val vertices: Seq[Vertex[VD]], val edges: Seq[Edge[E
     )
 
     val vertexMap = vertices.map(v => (v.id, v)).toMap
-    val newVertices = newEdges.flatMap(e => Seq(e.srcId, e.dstId)).distinct.map(
-      vid => Vertex(vid, vertexMap(vid.drop(1)).data)
-    )
+    val newVertices = keepAllNodes match {
+      case true => newEdges.flatMap(
+        e => Seq(e.srcId.head, e.dstId.head)
+      ).distinct.flatMap(
+        newId => vertices.map(v => Vertex(newId +: v.id, v.data))
+      )
+      case _ => newEdges.flatMap(
+        e => Seq(e.srcId, e.dstId)
+      ).distinct.map(
+        vid => Vertex(vid, vertexMap(vid.drop(1)).data)
+      )
+    }
 
     new Graph(newVertices, newEdges, numDimensions + 1)
   }
