@@ -1,11 +1,11 @@
 package org.zviri.graphslices.performance
 
 import org.scalameter.api._
-import org.zviri.graphslices.{Edge, GraphSerial, GraphSerial$, Vertex}
+import org.zviri.graphslices.{Edge, GraphSerial, Vertex}
 
-object GraphOperationsTest
+object GraphSerialOperationsTest
   extends Bench.LocalTime {
-    val sizes = Gen.range("Complete Graph Size (nodes)")(100, 1000, 100)
+    val sizes = Gen.range("Complete Graph Size (nodes)")(100, 1500, 100)
 
     val graphs = for {
       size <- sizes
