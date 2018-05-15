@@ -9,7 +9,7 @@ class HitsTest extends FunSuite with Matchers {
   //////////////////////// UN-WEIGHTED //////////////////////////////
 
   test("Simple graph") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -34,7 +34,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Simple graph with dimension") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -72,7 +72,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Grid graph") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -121,7 +121,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Star graph") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -166,7 +166,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Chain graph") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -211,7 +211,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Loop graph") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -260,7 +260,7 @@ class HitsTest extends FunSuite with Matchers {
   /////////////// WEIGHTED //////////////////////////////
 
   test("Simple graph - weighted") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -285,7 +285,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Grid graph - weighted") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -334,7 +334,7 @@ class HitsTest extends FunSuite with Matchers {
   }
 
   test("Star graph = weighted") {
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),

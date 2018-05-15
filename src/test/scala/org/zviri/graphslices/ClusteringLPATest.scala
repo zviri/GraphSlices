@@ -6,7 +6,7 @@ class ClusteringLPATest extends FlatSpec with Matchers {
 
   "clusterLPA" should "should cluster graph (assuming undirected) by algorithm described in https://arxiv.org/pdf/1103.4550.pdf" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),

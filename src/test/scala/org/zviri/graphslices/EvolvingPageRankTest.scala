@@ -9,7 +9,7 @@ class EvolvingPageRankTest extends FunSuite with Matchers {
   test("Evolving graph") {
 
     val MAX_TIME = 4
-    val graph = Graph(Seq(
+    val graph = GraphSerial(Seq(
       Vertex(Seq(1), 1),
       Vertex(Seq(2), 1),
       Vertex(Seq(3), 1),
@@ -60,7 +60,7 @@ class EvolvingPageRankTest extends FunSuite with Matchers {
   test("Static graph") {
 
     val MAX_TIME = 4
-    val graph = Graph(Seq(
+    val graph = GraphSerial(Seq(
       Vertex(Seq(1), 1),
       Vertex(Seq(2), 1),
       Vertex(Seq(3), 1),

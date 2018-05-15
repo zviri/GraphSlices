@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class AlgorithmsTest extends FlatSpec with Matchers {
 
-  val testGraphSimple = Graph(Seq(
+  val testGraphSimple = GraphSerial(Seq(
     Vertex(Seq(1), 1),
     Vertex(Seq(2), 2),
     Vertex(Seq(3), 3),

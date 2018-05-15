@@ -2,7 +2,7 @@ package org.zviri.graphslices
 
 import org.scalatest.{FlatSpec, Matchers}
 
-class GraphTest extends FlatSpec with Matchers {
+class GraphSerialTest extends FlatSpec with Matchers {
 
   val testGraphSimple = GraphSerial(Seq(
     Vertex(Seq(1), 1),

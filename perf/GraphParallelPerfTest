@@ -1,0 +1,75 @@
+/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/bin/java -Didea.launcher.port=7535 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/packager.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home/lib/tools.jar:/Users/peterzvirinsky/src/git/GraphSlices/target/scala-2.12/classes:/Users/peterzvirinsky/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.9.9.jar:/Users/peterzvirinsky/.ivy2/cache/org.typelevel/macro-compat_2.12/jars/macro-compat_2.12-1.1.1.jar:/Users/peterzvirinsky/.ivy2/cache/com.typesafe.play/play-json_2.12/jars/play-json_2.12-2.6.9.jar:/Users/peterzvirinsky/.ivy2/cache/com.typesafe.play/play-functional_2.12/jars/play-functional_2.12-2.6.9.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/bundles/jackson-datatype-jsr310-2.8.9.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/bundles/jackson-datatype-jdk8-2.8.9.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.core/jackson-databind/bundles/jackson-databind-2.8.9.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.core/jackson-core/bundles/jackson-core-2.8.9.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.core/jackson-annotations/bundles/jackson-annotations-2.8.9.jar:/Users/peterzvirinsky/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.4.jar:/Users/peterzvirinsky/.ivy2/cache/org.scalactic/scalactic_2.12/bundles/scalactic_2.12-3.0.4.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.module/jackson-module-paranamer/bundles/jackson-module-paranamer-2.8.5.jar:/Users/peterzvirinsky/.ivy2/cache/com.fasterxml.jackson.module/jackson-module-scala_2.12/bundles/jackson-module-scala_2.12-2.8.5.jar:/Users/peterzvirinsky/.ivy2/cache/com.storm-enroute/scalameter-core_2.12/jars/scalameter-core_2.12-0.10.jar:/Users/peterzvirinsky/.ivy2/cache/com.storm-enroute/scalameter_2.12/jars/scalameter_2.12-0.10.jar:/Users/peterzvirinsky/.ivy2/cache/com.thoughtworks.paranamer/paranamer/bundles/paranamer-2.8.jar:/Users/peterzvirinsky/.ivy2/cache/commons-io/commons-io/jars/commons-io-2.4.jar:/Users/peterzvirinsky/.ivy2/cache/io.spray/spray-json_2.12/bundles/spray-json_2.12-1.3.2.jar:/Users/peterzvirinsky/.ivy2/cache/org.apache.commons/commons-lang3/jars/commons-lang3-3.4.jar:/Users/peterzvirinsky/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.2.jar:/Users/peterzvirinsky/.ivy2/cache/org.mongodb/bson/jars/bson-3.6.0.jar:/Users/peterzvirinsky/.ivy2/cache/org.mongodb/mongodb-driver-async/jars/mongodb-driver-async-3.6.0.jar:/Users/peterzvirinsky/.ivy2/cache/org.mongodb/mongodb-driver-core/jars/mongodb-driver-core-3.6.0.jar:/Users/peterzvirinsky/.ivy2/cache/org.mongodb.scala/mongo-scala-bson_2.12/jars/mongo-scala-bson_2.12-2.2.0.jar:/Users/peterzvirinsky/.ivy2/cache/org.mongodb.scala/mongo-scala-driver_2.12/jars/mongo-scala-driver_2.12-2.2.0.jar:/Users/peterzvirinsky/.ivy2/cache/org.ow2.asm/asm/jars/asm-5.0.4.jar:/Users/peterzvirinsky/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.4.jar:/Users/peterzvirinsky/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/bundles/scala-parser-combinators_2.12-1.0.4.jar:/Users/peterzvirinsky/.ivy2/cache/org.scala-lang.modules/scala-xml_2.12/bundles/scala-xml_2.12-1.0.5.jar:/Users/peterzvirinsky/.ivy2/cache/org.scala-tools.testing/test-interface/jars/test-interface-0.5.jar:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar" com.intellij.rt.execution.application.AppMain org.zviri.graphslices.performance.GraphParallelOperationsTest
+::Benchmark Graph.mapTriplets::
+cores: 8
+hostname: Peters-MacBook-Pro.local
+name: Java HotSpot(TM) 64-Bit Server VM
+osArch: x86_64
+osName: Mac OS X
+vendor: Oracle Corporation
+version: 25.112-b16
+Parameters(Complete Graph Size (nodes) -> 100): 1.365483 ms
+Parameters(Complete Graph Size (nodes) -> 200): 4.974562 ms
+Parameters(Complete Graph Size (nodes) -> 300): 11.943806 ms
+Parameters(Complete Graph Size (nodes) -> 400): 18.149211 ms
+Parameters(Complete Graph Size (nodes) -> 500): 29.765594 ms
+Parameters(Complete Graph Size (nodes) -> 600): 49.024121 ms
+Parameters(Complete Graph Size (nodes) -> 700): 68.242211 ms
+Parameters(Complete Graph Size (nodes) -> 800): 94.479644 ms
+Parameters(Complete Graph Size (nodes) -> 900): 116.731496 ms
+Parameters(Complete Graph Size (nodes) -> 1000): 142.257172 ms
+Parameters(Complete Graph Size (nodes) -> 1100): 177.471331 ms
+Parameters(Complete Graph Size (nodes) -> 1200): 217.704834 ms
+Parameters(Complete Graph Size (nodes) -> 1300): 245.40649 ms
+Parameters(Complete Graph Size (nodes) -> 1400): 300.225755 ms
+Parameters(Complete Graph Size (nodes) -> 1500): 462.289975 ms
+
+::Benchmark Graph.subgraph::
+cores: 8
+hostname: Peters-MacBook-Pro.local
+name: Java HotSpot(TM) 64-Bit Server VM
+osArch: x86_64
+osName: Mac OS X
+vendor: Oracle Corporation
+version: 25.112-b16
+Parameters(Complete Graph Size (nodes) -> 100): 1.249705 ms
+Parameters(Complete Graph Size (nodes) -> 200): 4.133811 ms
+Parameters(Complete Graph Size (nodes) -> 300): 8.30921 ms
+Parameters(Complete Graph Size (nodes) -> 400): 13.664367 ms
+Parameters(Complete Graph Size (nodes) -> 500): 22.407381 ms
+Parameters(Complete Graph Size (nodes) -> 600): 36.523816 ms
+Parameters(Complete Graph Size (nodes) -> 700): 50.595572 ms
+Parameters(Complete Graph Size (nodes) -> 800): 66.189743 ms
+Parameters(Complete Graph Size (nodes) -> 900): 86.599883 ms
+Parameters(Complete Graph Size (nodes) -> 1000): 105.659269 ms
+Parameters(Complete Graph Size (nodes) -> 1100): 129.70987 ms
+Parameters(Complete Graph Size (nodes) -> 1200): 158.207707 ms
+Parameters(Complete Graph Size (nodes) -> 1300): 179.937586 ms
+Parameters(Complete Graph Size (nodes) -> 1400): 208.258887 ms
+Parameters(Complete Graph Size (nodes) -> 1500): 249.030411 ms
+
+::Benchmark Graph.aggregateNeighbors::
+cores: 8
+hostname: Peters-MacBook-Pro.local
+name: Java HotSpot(TM) 64-Bit Server VM
+osArch: x86_64
+osName: Mac OS X
+vendor: Oracle Corporation
+version: 25.112-b16
+Parameters(Complete Graph Size (nodes) -> 100): 3.829699 ms
+Parameters(Complete Graph Size (nodes) -> 200): 11.536214 ms
+Parameters(Complete Graph Size (nodes) -> 300): 26.518581 ms
+Parameters(Complete Graph Size (nodes) -> 400): 48.627217 ms
+Parameters(Complete Graph Size (nodes) -> 500): 73.233769 ms
+Parameters(Complete Graph Size (nodes) -> 600): 105.250673 ms
+Parameters(Complete Graph Size (nodes) -> 700): 142.653745 ms
+Parameters(Complete Graph Size (nodes) -> 800): 190.275493 ms
+Parameters(Complete Graph Size (nodes) -> 900): 243.351972 ms
+Parameters(Complete Graph Size (nodes) -> 1000): 311.438669 ms
+Parameters(Complete Graph Size (nodes) -> 1100): 362.690215 ms
+Parameters(Complete Graph Size (nodes) -> 1200): 433.88477 ms
+Parameters(Complete Graph Size (nodes) -> 1300): 508.737137 ms
+Parameters(Complete Graph Size (nodes) -> 1400): 594.993341 ms
+Parameters(Complete Graph Size (nodes) -> 1500): 709.314389 ms
+
+
+Process finished with exit code 0

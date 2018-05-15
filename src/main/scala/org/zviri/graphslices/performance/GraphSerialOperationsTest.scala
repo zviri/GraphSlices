@@ -1,11 +1,11 @@
 package org.zviri.graphslices.performance
 
 import org.scalameter.api._
-import org.zviri.graphslices.{Edge, Graph, Vertex}
+import org.zviri.graphslices.{Edge, GraphSerial, Vertex}
 
-object GraphOperationsTest
+object GraphSerialOperationsTest
   extends Bench.LocalTime {
-    val sizes = Gen.range("Complete Graph Size (nodes)")(100, 500, 100)
+    val sizes = Gen.range("Complete Graph Size (nodes)")(100, 1500, 100)
 
     val graphs = for {
       size <- sizes
@@ -19,7 +19,7 @@ object GraphOperationsTest
           Seq(Edge(Seq(edgeId.toLong), v1id, v2id, 1.0), Edge(Seq(edgeId.toLong), v2id, v1id, 1.0))
       }
 
-      Graph(nodes, edges)
+      GraphSerial(nodes, edges)
     }
 
     performance of "Graph" in {
