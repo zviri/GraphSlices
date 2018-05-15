@@ -214,7 +214,7 @@ object Algorithms {
       color += 1
     }
 
-    Graph(newVertices, graph.edges)
+    graph.updateVertices(newVertices)
   }
 
   def clusterLPA[VD, ED](graph: Graph[VD, ED]): Graph[Int, ED] = {
@@ -224,7 +224,7 @@ object Algorithms {
     case class LPA(color: Int, var cluster: Int)
 
     val lpaVertices: Seq[Vertex[LPA]] = coloredGraph.vertices.zipWithIndex.map { case (v, idx) => Vertex(v.id, LPA(v.data, idx)) }
-    var graphIter = Graph(lpaVertices, graph.edges)
+    var graphIter = graph.updateVertices(lpaVertices)
     val maxColor = coloredGraph.vertices.map(v => v.data).max
 
     var isUpdate = true

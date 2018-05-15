@@ -6,7 +6,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "maxIndependentSet" should "should find maximum independent set in a grid graph using Luby's algorithm" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -45,7 +45,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "maxIndependentSet" should "should find maximum independent set in a loop graph using Luby's algorithm" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -81,7 +81,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "maxIndependentSet" should "should find maximum independent set in a chain graph using Luby's algorithm" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -115,7 +115,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "maxIndependentSet" should "should find maximum independent set in a multi-dimensional graph using Luby's algorithm" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -145,7 +145,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "greedyColor" should "should find a proper graph coloring in a grid graph" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -178,7 +178,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "greedyColor" should "should find a proper graph coloring in a chain graph" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),
@@ -207,7 +207,7 @@ class ColoringTest extends FlatSpec with Matchers {
 
   "greedyColor" should "should find a proper graph coloring in a loop graph" in {
 
-    val graph = Graph(Vector(
+    val graph = GraphSerial(Vector(
       Vertex(Seq(1), Unit),
       Vertex(Seq(2), Unit),
       Vertex(Seq(3), Unit),

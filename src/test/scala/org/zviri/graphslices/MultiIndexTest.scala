@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class MultiIndexTest extends FlatSpec with Matchers {
 
-  val testIndex = MultiIndex(Vector(
+  val testIndex = RecursiveMultiIndex(Vector(
     (Vector[Long](1, 2, 3), 1),
     (Vector[Long](1, 2, 4), 2),
     (Vector[Long](1, 3, 3), 3),
@@ -28,7 +28,7 @@ class MultiIndexTest extends FlatSpec with Matchers {
 
   it should "throw IllegalArgumentException if the keys are not unique" in {
     a [IllegalArgumentException] should be thrownBy {
-      MultiIndex(Vector(
+      RecursiveMultiIndex(Vector(
         (Vector[Long](1), 1),
         (Vector[Long](1), 2)
       ))

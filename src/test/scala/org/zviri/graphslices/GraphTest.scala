@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class GraphTest extends FlatSpec with Matchers {
 
-  val testGraphSimple = Graph(Seq(
+  val testGraphSimple = GraphSerial(Seq(
     Vertex(Seq(1), 1),
     Vertex(Seq(2), 2),
     Vertex(Seq(3), 3),
@@ -123,7 +123,7 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   "pushDimension" should "should add a new dimension to the graph and keep all the nodes in every time window" in {
-    val graphTransformed = Graph(Seq(
+    val graphTransformed = GraphSerial(Seq(
       Vertex(Seq(1), 1),
       Vertex(Seq(2), 2),
       Vertex(Seq(3), 3)
@@ -147,7 +147,7 @@ class GraphTest extends FlatSpec with Matchers {
   }
 
   "popDimension" should "should remove on dimension from the graph and aggregate nodes/edges across that dimension" in {
-    val graph = Graph[Int, Int](Seq(
+    val graph = GraphSerial[Int, Int](Seq(
       Vertex(Seq(1), 1),
       Vertex(Seq(2), 2),
       Vertex(Seq(3), 3)
