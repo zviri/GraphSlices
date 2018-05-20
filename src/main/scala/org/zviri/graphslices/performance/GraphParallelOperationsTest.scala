@@ -3,8 +3,7 @@ package org.zviri.graphslices.performance
 import org.scalameter.api._
 import org.zviri.graphslices.{Edge, GraphParallel, Vertex}
 
-object GraphParallelOperationsTest
-  extends Bench.LocalTime {
+object GraphParallelOperationsTest extends CustomPerfTest("GraphParallelOperationsTest_") {
     val sizes = Gen.range("Complete Graph Size (nodes)")(100, 1500, 100)
 
     val graphs = for {
@@ -22,7 +21,7 @@ object GraphParallelOperationsTest
       GraphParallel(nodes, edges)
     }
 
-    performance of "Graph" in {
+    performance of "GraphParallel" in {
 
       measure method "mapTriplets" in {
         using(graphs) in {
