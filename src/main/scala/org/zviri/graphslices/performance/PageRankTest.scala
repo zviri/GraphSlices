@@ -10,16 +10,7 @@ object PageRankTest extends CustomPerfTest("PageRankTest_") {
   val graphsSerial = for {
     size <- sizes
   } yield {
-    val nodes = (0 until size).map(id => Vertex(Seq(id.toLong), 1.0))
-
-    val edges = nodes.flatMap(
-      n1 => nodes.map(n2 => (n1.id, n2.id))
-    ).zipWithIndex.flatMap {
-      case ((v1id, v2id), edgeId) =>
-        Seq(Edge(Seq(edgeId.toLong), v1id, v2id, 1.0), Edge(Seq(edgeId.toLong), v2id, v1id, 1.0))
-    }
-
-    GraphSerial(nodes, edges)
+    Generators.completeGraph(size).mapVertices(_ => 1.0).mapEdges(_ => 1.0)
   }
 
   performance of "SerialGraph" in {
@@ -34,16 +25,7 @@ object PageRankTest extends CustomPerfTest("PageRankTest_") {
   val graphsParallel = for {
     size <- sizes
   } yield {
-    val nodes = (0 until size).map(id => Vertex(Seq(id.toLong), 1.0))
-
-    val edges = nodes.flatMap(
-      n1 => nodes.map(n2 => (n1.id, n2.id))
-    ).zipWithIndex.flatMap {
-      case ((v1id, v2id), edgeId) =>
-        Seq(Edge(Seq(edgeId.toLong), v1id, v2id, 1.0), Edge(Seq(edgeId.toLong), v2id, v1id, 1.0))
-    }
-
-    GraphParallel(nodes, edges)
+    Generators.completeGraph(size).mapVertices(_ => 1.0).mapEdges(_ => 1.0).par
   }
 
   performance of "ParallelGraph" in {

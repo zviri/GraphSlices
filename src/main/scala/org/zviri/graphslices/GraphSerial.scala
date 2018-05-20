@@ -142,6 +142,10 @@ class GraphSerial[VD, ED] protected (val _vertices: Seq[Vertex[VD]], val _edges:
   def updateVertices[VD2](newVertices: Seq[Vertex[VD2]]): Graph[VD2, ED] = new GraphSerial(newVertices, edges, numDimensions)
 
   def updateEdges[ED2](newEdges: Seq[Edge[ED2]]): Graph[VD, ED2] = new GraphSerial(vertices, newEdges, numDimensions)
+
+  def seq: Graph[VD, ED] = new GraphSerial[VD, ED](vertices, edges, numDimensions)
+
+  def par: Graph[VD, ED] = new GraphParallel[VD, ED](vertices, edges, numDimensions)
 }
 
 object GraphSerial {

@@ -1,6 +1,6 @@
 package org.zviri.graphslices
 
-class GraphParallel[VD, ED] protected (_vertices: Seq[Vertex[VD]], _edges: Seq[Edge[ED]], _numDimensions: Int) extends GraphSerial[VD, ED](_vertices, _edges, _numDimensions) {
+class GraphParallel[VD, ED] private[graphslices] (_vertices: Seq[Vertex[VD]], _edges: Seq[Edge[ED]], _numDimensions: Int) extends GraphSerial[VD, ED](_vertices, _edges, _numDimensions) {
 
   override def triplets(): Seq[EdgeTriplet[VD, ED]] = {
     val vertexMap = vertices.map(v => (v.id, v)).toMap

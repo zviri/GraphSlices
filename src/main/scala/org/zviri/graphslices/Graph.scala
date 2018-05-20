@@ -37,6 +37,10 @@ trait Graph[VD, ED] {
   def updateVertices[VD2](vertices: Seq[Vertex[VD2]]): Graph[VD2, ED]
 
   def updateEdges[ED2](edges: Seq[Edge[ED2]]): Graph[VD, ED2]
+
+  def seq: Graph[VD, ED]
+
+  def par: Graph[VD, ED]
 }
 
 class Vertex[VD] private(val id: Id, val data: VD)
