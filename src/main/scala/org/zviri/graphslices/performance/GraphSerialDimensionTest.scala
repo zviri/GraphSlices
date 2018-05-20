@@ -3,8 +3,7 @@ package org.zviri.graphslices.performance
 import org.scalameter.api._
 import org.zviri.graphslices.{Edge, GraphSerial, GraphSerial$, Vertex}
 
-object GraphSerialDimensionTest
-  extends Bench.LocalTime {
+object GraphSerialDimensionTest extends CustomPerfTest("GraphSerialDimensionTest_") {
   val sizes = Gen.range("Complete Graph Size (nodes)")(10, 50, 10)
 
   val graphs = for {
