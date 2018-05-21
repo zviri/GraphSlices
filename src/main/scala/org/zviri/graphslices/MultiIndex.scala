@@ -48,7 +48,7 @@ object RecursiveMultiIndex {
   }
 
   def apply[A](items: Seq[(Id, A)]): RecursiveMultiIndex[A] = {
-    require(items.map(_._1).distinct.size == items.size, "VertexIds must be unique.")
+    require(items.map(_._1).distinct.size == items.size, "Ids must be unique.")
     if (items.head._1.nonEmpty) {
       val indexMap = items.map {
         case (key, value) => (key.head, (key.drop(1), value))
@@ -62,3 +62,38 @@ object RecursiveMultiIndex {
   }
 }
 
+class FlatMultiIndex[A] private(val _index: Seq[(Id, A)]) extends MultiIndex[A] {
+
+  def isLastLevel: Boolean = _index.head._1.size == 0
+
+  def apply(key: Long): MultiIndex[A] = {
+    val newIndex = _index.filter{
+      case (id, _) => id.head == key
+    }.map{
+      case (id, v) => (id.drop(1), v)
+    }
+    if (newIndex.isEmpty) throw new NoSuchElementException(s"Key $key not found in the index!")
+
+    new FlatMultiIndex(newIndex)
+  }
+
+  def value = if (_index.isEmpty) None else Some(_index.head._2)
+
+  def keys = _index.map{ case (id, _) => id.head }.distinct
+
+  def flatten: Seq[(Id, A)] = {
+    _index
+  }
+}
+
+object FlatMultiIndex {
+
+  def apply[A](keys: Seq[Id], values: Seq[A]): MultiIndex[A] = {
+    apply((keys, values).zipped.toSeq)
+  }
+
+  def apply[A](items: Seq[(Id, A)]): FlatMultiIndex[A] = {
+    require(items.map(_._1).distinct.size == items.size, "Ids must be unique.")
+    new FlatMultiIndex[A](items)
+  }
+}
