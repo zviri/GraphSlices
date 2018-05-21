@@ -1,7 +1,7 @@
 package org.zviri.graphslices.performance
 
 import org.scalameter.api._
-import org.zviri.graphslices.{Edge, GraphSerial, GraphSerial$, Vertex}
+import org.zviri.graphslices._
 
 object GraphSerialDimensionTest extends CustomPerfTest("GraphSerialDimensionTest_") {
   val sizes = Gen.range("Complete Graph Size (nodes)")(10, 50, 10)
@@ -9,32 +9,17 @@ object GraphSerialDimensionTest extends CustomPerfTest("GraphSerialDimensionTest
   val graphs = for {
     size <- sizes
   } yield {
-    val nodes = (0 until size).map(id => Vertex(Seq(id.toLong), 1.0))
-
-    val edges = nodes.flatMap(
-      n1 => nodes.map(n2 => (n1.id, n2.id))
-    ).zipWithIndex.flatMap {
-      case ((v1id, v2id), edgeId) => Seq(Edge(Seq(edgeId.toLong), v1id, v2id, 1.0))
-    }
-
-    GraphSerial(nodes, edges)
+    Generators.completeGraph(size).mapVertices(_ => 1.0).mapEdges(_ => 1.0)
   }
 
   val graphsWithDimension = for {
     size <- sizes
   } yield {
-    val nodes = (0 until size).map(id => Vertex(Seq(id.toLong), 1.0))
-
-    val edges = nodes.flatMap(
-      n1 => nodes.map(n2 => (n1.id, n2.id))
-    ).zipWithIndex.flatMap {
-      case ((v1id, v2id), edgeId) => Seq(Edge(Seq(edgeId.toLong), v1id, v2id, 1.0))
-    }
-
-    GraphSerial(nodes, edges).pushDimension(e => (0l to 10l).map(id => (id, e.data)))
+    val graph = Generators.completeGraph(size).mapVertices(_ => 1).mapEdges(_ => 1)
+    graph.pushDimension(e => (0l to 10l).map(id => (id, e.data)))
   }
 
-  performance of "Graph" in {
+  performance of "SerialGraph" in {
 
     measure method "pushDimension" in {
       using(graphs) in {
