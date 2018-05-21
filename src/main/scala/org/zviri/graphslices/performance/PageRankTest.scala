@@ -16,7 +16,6 @@ object PageRankTest extends CustomPerfTest("PageRankTest_") {
   performance of "SerialGraph" in {
     measure method "pagerank" in {
       using(graphsSerial) in {
-        print("done")
         g => Algorithms.pagerank(g.mapVertices(v => 1.0), numIter = 100)
       }
     }
