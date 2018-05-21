@@ -2,7 +2,7 @@ package org.zviri.graphslices
 
 import org.scalatest.{FlatSpec, Matchers}
 
-class MultiIndexTest extends FlatSpec with Matchers {
+class RecursiveMultiIndexTest extends FlatSpec with Matchers {
 
   val testIndex = RecursiveMultiIndex(Vector(
     (Vector[Long](1, 2, 3), 1),
