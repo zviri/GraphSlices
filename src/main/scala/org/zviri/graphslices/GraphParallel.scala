@@ -55,7 +55,7 @@ class GraphParallel[VD, ED] private[graphslices] (_vertices: Seq[Vertex[VD]], _e
         val currEdges = edgeIndex(key).flatten.map {
           case (id, edge) => (id, Edge(id, edge.srcId.drop(1), edge.dstId.drop(1), edge.data))
         }
-        (key, new GraphParallel(currVertices.map(_._2), currEdges.map(_._2), numDimensions - 1))
+        (key, new GraphSerial(currVertices.map(_._2), currEdges.map(_._2), numDimensions - 1))
     }.par.map {
       case (key, graph) => (key, mapFunc(graph))
     }.map {
@@ -63,10 +63,10 @@ class GraphParallel[VD, ED] private[graphslices] (_vertices: Seq[Vertex[VD]], _e
         val newVertices = graph.vertices.map(v => Vertex(key +: v.id, v.data))
         val newEdges = graph.edges.map(e => Edge(key +: e.id, key +: e.srcId, key +: e.dstId, e.data))
         (newVertices, newEdges)
-    }.foldLeft((Seq[Vertex[VD2]](), Seq[Edge[ED2]]())) {
+    }.seq.foldLeft((Seq[Vertex[VD2]](), Seq[Edge[ED2]]())) {
       case ((vs, es), (vc, ec)) => (vs ++ vc, es ++ ec)
     }
-    new GraphParallel(vertices, edges, numDimensions)
+    new GraphSerial(vertices, edges, numDimensions)
   }
 
   override def reverseEdges(): Graph[VD, ED] = {

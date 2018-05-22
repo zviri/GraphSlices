@@ -1,6 +1,6 @@
 package org.zviri.graphslices
 
-class GraphSerial[VD, ED] protected (val _vertices: Seq[Vertex[VD]], val _edges: Seq[Edge[ED]], val _numDimensions: Int) extends Graph[VD, ED] {
+class GraphSerial[VD, ED] private[graphslices] (val _vertices: Seq[Vertex[VD]], val _edges: Seq[Edge[ED]], val _numDimensions: Int) extends Graph[VD, ED] {
 
   lazy val _vertexIndex = FlatMultiIndex(vertices.map(_.id), vertices)
   lazy val _edgeIndex = FlatMultiIndex(edges.map(_.id), edges)
