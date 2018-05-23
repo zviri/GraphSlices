@@ -27,4 +27,9 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
+
+# OS specific
+.DS_Store
+
+# data
 perf/
