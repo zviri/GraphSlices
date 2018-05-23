@@ -1,17 +1,17 @@
 
 lazy val root = (project in file(".")).
   settings(
-    name := "GraphSlices",
+    name := "GraphSlicesExperiments",
+    organization := "org.zviri.graphslices",
     version := "1.0",
     scalaVersion := "2.12.4"
   )
 
+resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
+
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.4" % "test",
-  "org.scalactic" %% "scalactic" % "3.0.4",
-  "joda-time" % "joda-time" % "2.9.9",
-  "com.typesafe.play" %% "play-json" % "2.6.9",
-  "com.storm-enroute" %% "scalameter" % "0.10"
+  "com.storm-enroute" %% "scalameter" % "0.10",
+  "org.zviri.graphslices" %% "graphslices" % "1.0"
 )
 
 assemblyMergeStrategy in assembly <<= (mergeStrategy in assembly) {

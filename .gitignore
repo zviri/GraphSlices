@@ -32,4 +32,13 @@ project/plugins/project/
 .DS_Store
 
 # data
-perf/
+data/
+*.tsv
+*.svg
+*.gephi
+*.DS_Store
+*.jsonline
+
+# jupyter files
+.ipynb_checkpoints
+*.pyc
